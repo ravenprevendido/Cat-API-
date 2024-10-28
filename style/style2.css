@@ -1,0 +1,98 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+}
+
+.breedselect{
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 50px;
+    text-align: center;
+    color: #fff;
+    background: #0a0a0a;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.selectedBreed{
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: #0a0a0a;
+    text-align: left;
+}
+
+select .selectedBreed {
+    text-align: center;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #a9a29e;
+    padding: 20px; /* Center the image */
+}
+
+.right-column {
+    flex: 1;
+    padding-right: 50px;
+    font-size: 20px;
+    background-color: #fcf5e8; /* Cream background */
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#catimage {
+    max-width: 100%; /* Ensures image fits the column */
+    height: auto; /* Maintains aspect ratio */
+}
+
+.breedselect{
+    display: inline-block;
+}
+
+.breedselect option{
+    display: inline;
+}
+
+.cat-content{
+    width: 100%;
+    max-width: 500px;
+}
+
+.masked-image {
+    width: 700px;
+    height: 700px;
+    object-fit: cover;
+    object-position: center;
+    clip-path: path(
+      "M644.1,350c29.3,33.4,48.2,78.9,49.2,136.7-3.4,201.4-224.8,254.5-343.3,159.4C231.6,741.2,10.2,688.1,6.7,486.7c1-57.8,19.9-103.3,49.2-136.7C26.6,316.6,7.7,271.1,6.7,213.3,10.2,11.9,231.6-41.2,350,53.9c118.4-95.1,339.8-42,343.3,159.4-1,57.8-19.9,103.3-49.2,136.7h0Z"
+    );
+  }
+
+
+  

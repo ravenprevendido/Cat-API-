@@ -1,0 +1,141 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Activity1</title>
+        <link rel="stylesheet" href="style/style2.css">
+    </head>
+    <body>
+
+    <!-- this is details description -->
+    <div class="main-content">
+        <div class="left-column">
+            <img id="catimage" class=".masked-image">
+        </div>
+        <div class="right-column">
+            <select id="breedselect" class="breedselect">
+                <option value="">--SELECT BREED--</option>
+            </select>
+            <div class="cat-content">
+                <h2 id="catbreed">CAT</h2>
+                <p id="catorigin">Origin will display here!</p>
+                <h4 id="length"></h4>
+                <h4 id="family_friendly"></h4>
+                <h4 id="shedding"></h4>
+                <h4 id="general_health"></h4>
+                <h4 id="playfulness"></h4>
+                <h4 id="children_friendly"></h4>
+                <h4 id="grooming"></h4>
+                <h4 id="intelligence"></h4>
+                <h4 id="other_pets_friendly"></h4>
+                <h4 id="min_weight"></h4>
+                <h4 id="max_weight"></h4>
+                <h4 id="min_life_expectancy"></h4>
+                <h4 id="max_life_expectancy"></h4>
+            </div>
+        </div>
+    </div>
+    <script src="javascript/script.js"></script>
+    <script>
+    const apiKey = 'Ghg0qxul3pMBQvehVUT5zw==ugxhvtKLPtYQFiVv';
+    const uri = "https://api.api-ninjas.com/v1/cats"; 
+
+
+    function loadBreed(){
+        fetch('/breeds.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            } 
+            return response.json();
+        })
+        .then(data => {
+            const breedSelect = document.getElementById("breedselect");
+            const catbreeds = data.catBreeds;
+
+            catbreeds.forEach(breed => {
+                let option = document.createElement("option");
+                option.className = "selectedBreed";
+                option.value = breed;
+                option.text = breed;
+                breedSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Failed to load breeds: ', error.message);
+        })
+    }
+    // Function to fetch and display cat information based on the selected breed
+    function getCatinfo(breed) {
+        fetch(`${uri}?name=${breed}`, {
+            method: 'GET',
+            headers: {
+                'X-Api-Key': apiKey,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            } 
+            return response.json();
+        }) 
+        .then(cat => {
+            if(cat.length > 0) {
+            document.getElementById("catbreed").innerText = cat[0].name;
+            document.getElementById("catbreed").style.color = "black";
+            document.getElementById("catorigin").innerText = cat[0].origin;
+            document.getElementById("catimage").src = cat[0].image_link;
+            document.getElementById("length").innerText = `Length: ${cat[0].length}`;
+            document.getElementById("family_friendly").innerText = `Family Friendly: ${cat[0].family_friendly}`;
+            document.getElementById("shedding").innerText = `Shedding: ${cat[0].shedding}`;
+            document.getElementById("general_health").innerText = `General Health: ${cat[0].general_health}`;
+            document.getElementById("playfulness").innerText = `Playfulness: ${cat[0].playfulness}`;
+            document.getElementById("children_friendly").innerText = `Children Friendly: ${cat[0].children_friendly}`;
+            document.getElementById("grooming").innerText = `Grooming: ${cat[0].grooming}`;
+            document.getElementById("intelligence").innerText = `Intelligence: ${cat[0].intelligence}`;
+            document.getElementById("other_pets_friendly").innerText = `Other Pets Friendly: ${cat[0].other_pets_friendly}`;
+            document.getElementById("min_weight").innerText = `Min Weight: ${cat[0].min_weight} lbs`;
+            document.getElementById("max_weight").innerText = `Max Weight: ${cat[0].max_weight} lbs`;
+            document.getElementById("min_life_expectancy").innerText = `Min Life Expectancy: ${cat[0].min_life_expectancy} years`;
+            document.getElementById("max_life_expectancy").innerText = `Max Life Expectancy: ${cat[0].max_life_expectancy} years`;
+        } else {
+            document.getElementById("catbreed").innerText = "No Cat Breed Information Found";
+            document.getElementById("catbreed").style.color = "red";
+            document.getElementById("catorigin").innerText = "";
+            document.getElementById("catimage").src = "";
+            document.getElementById("length").innerText = "";
+            document.getElementById("family_friendly").innerText = "";
+            document.getElementById("shedding").innerText = "";
+            document.getElementById("general_health").innerText = "";
+            document.getElementById("playfulness").innerText = "";
+            document.getElementById("children_friendly").innerText = "";
+            document.getElementById("grooming").innerText =  "";
+            document.getElementById("intelligence").innerText = "";
+            document.getElementById("other_pets_friendly").innerText = "";
+            document.getElementById("min_weight").innerText = "";
+            document.getElementById("max_weight").innerText = "";
+            document.getElementById("min_life_expectancy").innerText = "";
+            document.getElementById("max_life_expectancy").innerText = "";
+        }
+        })
+        .catch(error => {
+            console.error('Error: ', error.message);
+        });
+    }
+
+    // Event listener for breed selection
+    document.getElementById("breedselect").addEventListener("change", function () {
+        const selectedBreed = this.value;
+        if(selectedBreed){
+            getCatinfo(selectedBreed);
+        } else if (selectedBreed == ""){
+            getCatinfo(selectedBreed).value = "";
+        }
+    });
+    loadBreed();
+
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,125 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h2 id="catbreed">Breed will display here</h2>
+    <p id="catorigin">Origin will display here</p>
+    <img id="catimage" alt="Cat Image">
+    <p id="catfamilyFriendly"></p>
+    <p id="catshedding"></p>
+    <p id="catgeneralHealth"></p>
+    <p id="catplayfulness"></p>
+    <p id="catchildrenFriendly"></p>
+    <p id="catgrooming"></p>
+    <p id="catintelligence"></p>
+    <p id="catotherPetsFriendly"></p>
+    <p id="catlength"></p>
+    <p id="catweight"></p>
+    <p id="catlifeExpectancy"></p>
+
+    <!-- Dropdown for selecting breeds -->
+    <label for="breedDropdown">Select a breed:</label>
+    <select id="breedDropdown">
+        <option value="" disabled selected>Select a breed</option>
+    </select>
+
+    <script>
+        const apiKey = 'sjtVrRv3sDCuPtBQiCzte4tqewv7eXAIEpCV067T';
+        const uri = 'https://api.api-ninjas.com/v1/cats';
+        
+        
+        function loadBreed() {
+            fetch('/breeds.json') // path ng json
+                .then(response => response.json())
+                .then(data => {
+                    const breedDropdown = document.getElementById("breedDropdown");
+                    const breeds = data.catBreeds;
+
+                 
+                    breeds.forEach(breed => {
+                        let option = document.createElement("option");
+                        option.value = breed;
+                        option.text = breed;
+                        breedDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading breeds:', error);
+                });
+        }
+
+        // Fetch and display cat info based on selected breed
+        function getCatinfo(breed) {
+            fetch(`${uri}?name=${breed}`, {
+                method: 'GET',
+                headers: {
+                    'X-Api-Key': apiKey,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();  
+            })
+            .then(cat => {
+                if (cat.length > 0) {
+                    // Select DOM elements
+                    let catbreedElement = document.getElementById("catbreed");
+                    let catoriginElement = document.getElementById("catorigin");
+                    let catimageElement = document.getElementById("catimage");
+                    let catfamilyFriendlyElement = document.getElementById("catfamilyFriendly");
+                    let catsheddingElement = document.getElementById("catshedding");
+                    let catgeneralHealthElement = document.getElementById("catgeneralHealth");
+                    let catplayfulnessElement = document.getElementById("catplayfulness");
+                    let catchildrenFriendlyElement = document.getElementById("catchildrenFriendly");
+                    let catgroomingElement = document.getElementById("catgrooming");
+                    let catintelligenceElement = document.getElementById("catintelligence");
+                    let catotherPetsFriendlyElement = document.getElementById("catotherPetsFriendly");
+                    let catlengthElement = document.getElementById("catlength");
+                    let catweightElement = document.getElementById("catweight");
+                    let catlifeExpectancyElement = document.getElementById("catlifeExpectancy");
+
+                    // Update DOM elements with fetched data
+                    catbreedElement.innerHTML = cat[0].name;
+                    catoriginElement.innerHTML = "Origin: " + cat[0].origin;
+                    catimageElement.src = cat[0].image_link;  
+                    catfamilyFriendlyElement.innerHTML = "Family Friendly: " + cat[0].family_friendly + "/5";
+                    catsheddingElement.innerHTML = "Shedding: " + cat[0].shedding + "/5";
+                    catgeneralHealthElement.innerHTML = "General Health: " + cat[0].general_health + "/5";
+                    catplayfulnessElement.innerHTML = "Playfulness: " + cat[0].playfulness + "/5";
+                    catchildrenFriendlyElement.innerHTML = "Children Friendly: " + cat[0].children_friendly + "/5";
+                    catgroomingElement.innerHTML = "Grooming: " + cat[0].grooming + "/5";
+                    catintelligenceElement.innerHTML = "Intelligence: " + cat[0].intelligence + "/5";
+                    catotherPetsFriendlyElement.innerHTML = "Other Pets Friendly: " + cat[0].other_pets_friendly + "/5";
+                    catlengthElement.innerHTML = "Length: " + cat[0].length;
+                    catweightElement.innerHTML = "Weight: " + cat[0].min_weight + " to " + cat[0].max_weight + " lbs";
+                    catlifeExpectancyElement.innerHTML = "Life Expectancy: " + cat[0].min_life_expectancy + " to " + cat[0].max_life_expectancy + " years";
+                } else {
+                    alert("No data found for the selected breed.");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching cat info:', error);
+            });
+        }
+
+        // Event listener for breed selection
+        document.getElementById("breedDropdown").addEventListener("change", function () {
+            const selectedBreed = this.value;
+            getCatinfo(selectedBreed); // Fetch data based on selected breed
+        });
+
+        // Call the function to load breeds when page loads
+        loadBreed();
+    </script>
+</body>
+
+</html>

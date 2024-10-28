@@ -1,0 +1,98 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h2 id="catbreed"> dito madidisplay yung breed ng cat</h2>
+    <p id="catorigin"> dito madidisplay yung origin</p>
+    <img id="catimage" alt="Cat Image">
+    <p id="catfamilyFriendly"></p>
+    <p id="catshedding"></p>
+    <p id="catgeneralHealth"></p>
+    <p id="catplayfulness"></p>
+    <p id="catchildrenFriendly"></p>
+    <p id="catgrooming"></p>
+    <p id="catintelligence"></p>
+    <p id="catotherPetsFriendly"></p>
+    <p id="catlength"></p>
+    <p id="catweight"></p>
+    <p id="catlifeExpectancy"></p>
+
+    <script>
+        const breed = "Devon Rex";
+        const apiKey = 'sjtVrRv3sDCuPtBQiCzte4tqewv7eXAIEpCV067T';
+        const uri = 'https://api.api-ninjas.com/v1/cats';
+
+        function loadBreed(){
+        }
+
+        function getCatinfo() {
+            fetch(`${uri}?name=${breed}`, {
+                method: 'GET',
+                headers: {
+                    'X-Api-Key': apiKey,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();  // convert json to js object
+                })
+                .then(cat => {
+                    if (cat.length > 0) {
+                        
+                        // Select DOM elements
+                        let catbreedElement = document.getElementById("catbreed");
+                        let catoriginElement = document.getElementById("catorigin");
+                        let catimageElement = document.getElementById("catimage");
+                        let catfamilyFriendlyElement = document.getElementById("catfamilyFriendly");
+                        let catsheddingElement = document.getElementById("catshedding");
+                        let catgeneralHealthElement = document.getElementById("catgeneralHealth");
+                        let catplayfulnessElement = document.getElementById("catplayfulness");
+                        let catchildrenFriendlyElement = document.getElementById("catchildrenFriendly");
+                        let catgroomingElement = document.getElementById("catgrooming");
+                        let catintelligenceElement = document.getElementById("catintelligence");
+                        let catotherPetsFriendlyElement = document.getElementById("catotherPetsFriendly");
+                        let catlengthElement = document.getElementById("catlength");
+                        let catweightElement = document.getElementById("catweight");
+                        let catlifeExpectancyElement = document.getElementById("catlifeExpectancy");
+
+                        console.log(cat[0].origin);
+                        // Update DOM elements with fetched data
+                        catbreedElement.innerHTML = cat[0].name;
+                        catoriginElement.innerHTML = "Origin: " + cat[0].origin;
+                        catimageElement.src = cat[0].image_link;  // Image link
+                        catfamilyFriendlyElement.innerHTML = "Family Friendly: " + cat[0].family_friendly + "/5";
+                        catsheddingElement.innerHTML = "Shedding: " + cat[0].shedding + "/5";
+                        catgeneralHealthElement.innerHTML = "General Health: " + cat[0].general_health + "/5";
+                        catplayfulnessElement.innerHTML = "Playfulness: " + cat[0].playfulness + "/5";
+                        catchildrenFriendlyElement.innerHTML = "Children Friendly: " + cat[0].children_friendly + "/5";
+                        catgroomingElement.innerHTML = "Grooming: " + cat[0].grooming + "/5";
+                        catintelligenceElement.innerHTML = "Intelligence: " + cat[0].intelligence + "/5";
+                        catotherPetsFriendlyElement.innerHTML = "Other Pets Friendly: " + cat[0].other_pets_friendly + "/5";
+                        catlengthElement.innerHTML = "Length: " + cat[0].length;
+                        catweightElement.innerHTML = "Weight: " + cat[0].min_weight + " to " + cat[0].max_weight + " lbs";
+                        catlifeExpectancyElement.innerHTML = "Life Expectancy: " + cat[0].min_life_expectancy + " to " + cat[0].max_life_expectancy + " years";
+
+                    } else {
+                        console.error("No data found for the selected breed.");
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        // Call the function to load cat information
+        getCatinfo();
+    </script>
+</body>
+
+</html>
